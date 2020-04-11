@@ -37,32 +37,35 @@ def menu():
         r = requests.post("https://cyberland.club"+boardSelection, data={"content":message,"replyTo":"null"})
         print(r)
 
-    if menuChoice == 2:
+    elif menuChoice == 2:
         threadNumber = input("Please choose a thread to view: ")
         os.system("clear")
         thread = requests.get("https://cyberland.club"+boardSelection+"?thread="+threadNumber+"&num=20")
         prettyThread = json.dumps(thread.json(), indent=4)
         print(prettyThread)
 
-    if menuChoice == 3:
+    elif menuChoice == 3:
         replyTo = input("Please choose a thread number to reply to: ")
         message = input("Please choose a message: ")
         r = requests.post("https://cyberland.club"+boardSelection, data={"content":message,"replyTo":replyTo})
         print(r)
 
-    if menuChoice == 4:
+    elif menuChoice == 4:
         os.system("clear")
         boardFetch()
 
-    if menuChoice == 5:
+    elif menuChoice == 5:
         os.system("clear")
         thread = requests.get("https://cyberland.club"+boardSelection+"?thread="+threadNumber+"&num=20")
         prettyThread = json.dumps(thread.json(), indent=4)
         print(prettyThread)
 
-    if menuChoice == 6:
+    elif menuChoice == 6:
         print("Quitting! Bye Bye...")
         quit()
+        
+    else:
+      print("An error occured...")
 
 def boardFetch():
     print("Fetching",boardSelection+"...")
