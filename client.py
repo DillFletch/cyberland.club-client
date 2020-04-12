@@ -10,14 +10,15 @@ print('''
 | |__| |_| | |_) |  __/ |  | | (_| | | | | (_| || (__| | |_| | |_) |
  \____\__, |_.__/ \___|_|  |_|\__,_|_| |_|\__,_(_)___|_|\__,_|_.__/ 
       |___/                                                         
-
         ''')
+
+url = <url here>
 
 print("sm0lman's cringe cyberland.club python client")
 print(" ")
 print("Please select the board you wish to view")
-print("/o/")
 print("/t/")
+print("/o/")
 print("/n/")
 boardSelection = input("Selection: ")
 
@@ -29,25 +30,26 @@ def menu():
     print("3. Reply to a thread")
     print("4. Refresh board")
     print("5. Refresh thread")
-    print("6. Exit")
+    print("6. Change board")
+    print("7. Exit")
     menuChoice = int(input("Select a choice: "))
 
     if menuChoice == 1:
         message = input("Please choose a message: ")
-        r = requests.post("https://cyberland.club"+boardSelection, data={"content":message,"replyTo":"null"})
+        r = requests.post(url+boardSelection, data={"content":message,"replyTo":"null"})
         print(r)
 
     elif menuChoice == 2:
         threadNumber = input("Please choose a thread to view: ")
         os.system("clear")
-        thread = requests.get("https://cyberland.club"+boardSelection+"?thread="+threadNumber+"&num=20")
+        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=20")
         prettyThread = json.dumps(thread.json(), indent=4)
         print(prettyThread)
 
     elif menuChoice == 3:
         replyTo = input("Please choose a thread number to reply to: ")
         message = input("Please choose a message: ")
-        r = requests.post("https://cyberland.club"+boardSelection, data={"content":message,"replyTo":replyTo})
+        r = requests.post(url+boardSelection, data={"content":message,"replyTo":replyTo})
         print(r)
 
     elif menuChoice == 4:
@@ -56,11 +58,18 @@ def menu():
 
     elif menuChoice == 5:
         os.system("clear")
-        thread = requests.get("https://cyberland.club"+boardSelection+"?thread="+threadNumber+"&num=20")
+        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=20")
         prettyThread = json.dumps(thread.json(), indent=4)
         print(prettyThread)
 
-    elif menuChoice == 6:
+#    elif menuChoice == 6:
+#        print("Boards to change to: ")
+ #       print("/t/")
+  #      print("/o/")
+   #     print("/n/")
+   #     boardSelection = input("Selection: ")
+
+    elif menuChoice == 7:
         print("Quitting! Bye Bye...")
         quit()
         
@@ -69,7 +78,7 @@ def menu():
 
 def boardFetch():
     print("Fetching",boardSelection+"...")
-    board = requests.get("https://cyberland.club"+boardSelection+"?num=20")
+    board = requests.get(url+boardSelection+"?num=10")
     prettyBoard = json.dumps(board.json(), indent=4)
     print(prettyBoard)
     menu()
