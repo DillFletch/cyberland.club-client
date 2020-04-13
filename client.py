@@ -12,6 +12,7 @@ print('''
       |___/                                                         
         ''')
 
+refreshed = False
 boardSelection = "nill"
 url = "https://cyberland2.club/"
 
@@ -52,7 +53,9 @@ def menu():
 
 
 while True:
-    boardFetch()
+    if refreshed = False:
+       boardFetch()
+    refreshed = False
     menuChoice = menu()
 
     if menuChoice == 1:
@@ -86,6 +89,7 @@ while True:
     elif menuChoice == 4:
         os.system("clear")
         boardFetch()
+        refreshed = True
 
     elif menuChoice == 5:
         os.system('clear')
