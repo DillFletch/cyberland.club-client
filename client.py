@@ -31,14 +31,13 @@ def boardFetch():
     posts = json.loads(board.content)
     posts = list(reversed(posts))
     for post in range(1,len(posts)):
-        print("Post ID: "+ str(posts[post]['id']))
-        if type(posts[post]['replyTo']) is str:
-            if posts[post]['replyTo'] != "0":
-                print("In Reply To: " + posts[post]['replyTo'])
-        print("Post Content:")
+        print("\n================================================")
+        print("Post ID: "+ str(posts[post]['id']) + " | Time: "+ posts[post]['time'])
+        if posts[post]['replyTo'] != "0" and type(posts[post]['replyTo']) is str:
+            print(">>" + posts[post]['replyTo'])
+        print("================================================")
         print(posts[post]['content'])
-        print("==========================")
-
+        print("================================================\n")
 def menu():
     print("[N]ew OP Post, [F]ollow a thread, [R]eply to a thread, Refresh [B]oard, Refresh [T]hread, [C]hange board,[S]end ANSI image, [Q]uit") 
     menuChoice = str(input("Select a choice: "))
@@ -102,8 +101,9 @@ while True:
     elif menuChoice.lower() == "s":
         ansFileName = input("Please give the name of the ANSI file you want to send: ")
         print("Sending ANSI file...")
-        ansiFile = open(ansFileName, "r", encoding="Windows-1252")
-        r = requests.post(url+boardSelection, data={"content":ansiFile.read(),"replyTo":"null"})
+        ansiFile = open(ansFileName, "r")
+        message = input("Insert a message to put alongside your image: ")
+        r = requests.post(url+boardSelection, data={"content":(message + "\n" + ansiFile.read()),"replyTo":"null"})
         print(r)
         
     elif menuChoice.lower() == "q":
