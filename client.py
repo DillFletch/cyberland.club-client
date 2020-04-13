@@ -102,7 +102,7 @@ while True:
     elif menuChoice.lower() == "s":
         ansFileName = input("Please give the name of the ANSI file you want to send: ")
         print("Sending ANSI file...")
-        ansiFile = open(ansFileName, "r", encoding="Windows-1252")
+        ansiFile = open(ansFileName, "r", encoding="UTF-8")
         r = requests.post(url+boardSelection, data={"content":ansiFile.read(),"replyTo":"null"})
         print(r)
         
