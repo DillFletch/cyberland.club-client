@@ -38,6 +38,7 @@ def boardFetch():
         print("================================================")
         print(posts[post]['content'])
         print("================================================\n")
+
 def menu():
     print("[N]ew OP Post, [F]ollow a thread, [R]eply to a thread, Refresh [B]oard, Refresh [T]hread, [C]hange board,[S]end ANSI image, [Q]uit") 
     menuChoice = str(input("Select a choice: "))
