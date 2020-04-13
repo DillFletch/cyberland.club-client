@@ -12,7 +12,7 @@ print('''
       |___/                                                         
         ''')
 
-url = <url here>
+url = "https://cyberland2.club/"
 
 print("sm0lman's cringe cyberland.club python client")
 print(" ")
@@ -42,7 +42,7 @@ def menu():
     elif menuChoice == 2:
         threadNumber = input("Please choose a thread to view: ")
         os.system("clear")
-        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=20")
+        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=200")
         prettyThread = json.dumps(thread.json(), indent=4)
         print(prettyThread)
 
@@ -62,30 +62,34 @@ def menu():
         prettyThread = json.dumps(thread.json(), indent=4)
         print(prettyThread)
 
-#    elif menuChoice == 6:
-#        print("Boards to change to: ")
- #       print("/t/")
-  #      print("/o/")
-   #     print("/n/")
-   #     boardSelection = input("Selection: ")
+    elif menuChoice == 6:
+        print("Boards to change to: ")
+        print("/t/")
+        print("/o/")
+        print("/n/")
+        boardSelection = input("Selection: ")
+        return boardSelection
 
     elif menuChoice == 7:
         print("Quitting! Bye Bye...")
-        quit()
+        return "quit"
         
     else:
       print("An error occured...")
 
-def boardFetch():
+def boardFetch(boardSelection):
     print("Fetching",boardSelection+"...")
-    board = requests.get(url+boardSelection+"?num=10")
+    board = requests.get(url+boardSelection+"?num=200")
     prettyBoard = json.dumps(board.json(), indent=4)
     print(prettyBoard)
-    menu()
+    return menu()
 
 
-
-boardFetch()
+choice = boardFetch(boardSelection)
+if (choice == "quit"):
+    quit()
+else:
+    boardFetch(choice)
 
 while True:
     menu()
