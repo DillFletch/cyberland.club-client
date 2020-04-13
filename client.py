@@ -12,7 +12,8 @@ print('''
       |___/                                                         
         ''')
 
-url = "https://cyberland2.club/"
+boardSelection = "nill"
+url = "https://cyberland2.club"
 
 print("sm0lman's cringe cyberland.club python client")
 print(" ")
@@ -21,6 +22,12 @@ print("/t/")
 print("/o/")
 print("/n/")
 boardSelection = input("Selection: ")
+
+def boardFetch():
+    print("Fetching",boardSelection+"...")
+    board = requests.get(url+boardSelection+"?num=10")
+    prettyBoard = json.dumps(board.json(), indent=4)
+    print(prettyBoard)
 
 def menu():
     print(" ")
@@ -33,6 +40,12 @@ def menu():
     print("6. Change board")
     print("7. Exit")
     menuChoice = int(input("Select a choice: "))
+    return menuChoice
+
+
+while True:
+    boardFetch()
+    menuChoice = menu()
 
     if menuChoice == 1:
         message = input("Please choose a message: ")
@@ -42,9 +55,11 @@ def menu():
     elif menuChoice == 2:
         threadNumber = input("Please choose a thread to view: ")
         os.system("clear")
-        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=200")
+        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=20")
         prettyThread = json.dumps(thread.json(), indent=4)
         print(prettyThread)
+        input("Press enter to continue...")
+        os.system("clear")
 
     elif menuChoice == 3:
         replyTo = input("Please choose a thread number to reply to: ")
@@ -68,28 +83,10 @@ def menu():
         print("/o/")
         print("/n/")
         boardSelection = input("Selection: ")
-        return boardSelection
-
+        
     elif menuChoice == 7:
         print("Quitting! Bye Bye...")
-        return "quit"
+        quit()
         
     else:
       print("An error occured...")
-
-def boardFetch(boardSelection):
-    print("Fetching",boardSelection+"...")
-    board = requests.get(url+boardSelection+"?num=200")
-    prettyBoard = json.dumps(board.json(), indent=4)
-    print(prettyBoard)
-    return menu()
-
-
-choice = boardFetch(boardSelection)
-if (choice == "quit"):
-    quit()
-else:
-    boardFetch(choice)
-
-while True:
-    menu()
