@@ -69,7 +69,7 @@ while True:
         os.system('clear')
         thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=50")
         posts = json.loads(thread.content)
-        posts = list(reversed(array))
+        posts = list(reversed(posts))
         for post in range(1,len(posts)):
             print("Post ID: "+ str(posts[post]['id']))
             if type(posts[post]['replyTo']) is str:
