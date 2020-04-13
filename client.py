@@ -28,6 +28,7 @@ def boardFetch():
     print("Fetching",boardSelection+"...")
     board = requests.get(url+boardSelection+"?num=10")
     posts = json.loads(board.content)
+    posts = list(reversed(posts))
     for post in range(1,len(posts)):
         print("Post ID: "+ str(posts[post]['id']))
         if posts[post]['replyTo'] is int:
@@ -64,6 +65,7 @@ while True:
         os.system('clear')
         thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=20")
         posts = json.loads(thread.content)
+        posts = list(reversed(array))
         for post in range(1,len(posts)):
             print("Post ID: "+ str(posts[post]['id']))
             if posts[post]['replyTo'] is int:
