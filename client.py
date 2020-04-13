@@ -21,6 +21,7 @@ print("Please select the board you wish to view")
 print("/t/")
 print("/o/")
 print("/n/")
+print("/i/")
 boardSelection = input("Selection: ")
 
 def boardFetch():
