@@ -53,7 +53,7 @@ def menu():
 
 
 while True:
-    if refreshed = False:
+    if refreshed == False:
        boardFetch()
     refreshed = False
     menuChoice = menu()
