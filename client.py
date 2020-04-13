@@ -27,7 +27,7 @@ boardSelection = input("Selection: ")
 
 def boardFetch():
     print("Fetching",boardSelection+"...")
-    board = requests.get(url+boardSelection+"?num=10")
+    board = requests.get(url+boardSelection+"?num=50")
     posts = json.loads(board.content)
     posts = list(reversed(posts))
     for post in range(1,len(posts)):
@@ -66,7 +66,7 @@ while True:
     elif menuChoice == 2:
         threadNumber = input("Please choose a thread to view: ")
         os.system('clear')
-        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=20")
+        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=50")
         posts = json.loads(thread.content)
         posts = list(reversed(array))
         for post in range(1,len(posts)):
@@ -93,7 +93,7 @@ while True:
 
     elif menuChoice == 5:
         os.system('clear')
-        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=20")
+        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=50")
         prettyThread = json.dumps(thread.json(), indent=4)
         print(prettyThread)
 
