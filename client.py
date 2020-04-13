@@ -32,7 +32,7 @@ def boardFetch():
     posts = list(reversed(posts))
     for post in range(1,len(posts)):
         print("Post ID: "+ str(posts[post]['id']))
-        if posts[post]['replyTo'] is int:
+        if posts[post]['replyTo'] is str:
             print("In Reply To: " + posts[post]['replyTo'])
         print("Post Content:")
         print(posts[post]['content'])
@@ -71,7 +71,7 @@ while True:
         posts = list(reversed(array))
         for post in range(1,len(posts)):
             print("Post ID: "+ str(posts[post]['id']))
-            if posts[post]['replyTo'] is int:
+            if posts[post]['replyTo'] is str:
                 print("In Reply To: " + posts[post]['replyTo'])
             print("Post Content:")
             print(posts[post]['content'])
