@@ -102,8 +102,9 @@ while True:
     elif menuChoice.lower() == "s":
         ansFileName = input("Please give the name of the ANSI file you want to send: ")
         print("Sending ANSI file...")
-        ansiFile = open(ansFileName, "r", encoding="UTF-8")
-        r = requests.post(url+boardSelection, data={"content":ansiFile.read(),"replyTo":"null"})
+        ansiFile = open(ansFileName, "r")
+        message = input("Insert a message to put alongside your image: ")
+        r = requests.post(url+boardSelection, data={"content":(message + "\n" + ansiFile.read()),"replyTo":"null"})
         print(r)
         
     elif menuChoice.lower() == "q":
