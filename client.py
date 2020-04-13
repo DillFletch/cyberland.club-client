@@ -13,7 +13,7 @@ print('''
         ''')
 
 boardSelection = "nill"
-url = "https://cyberland2.club"
+url = "https://cyberland2.club/"
 
 print("sm0lman's cringe cyberland.club python client")
 print(" ")
@@ -26,8 +26,14 @@ boardSelection = input("Selection: ")
 def boardFetch():
     print("Fetching",boardSelection+"...")
     board = requests.get(url+boardSelection+"?num=10")
-    prettyBoard = json.dumps(board.json(), indent=4)
-    print(prettyBoard)
+    posts = json.loads(board.content)
+    for post in range(1,len(posts)):
+        print("Post ID: "+ str(posts[post]['id']))
+        if posts[post]['replyTo'] is int:
+            print("In Reply To: " + posts[post]['replyTo'])
+        print("Post Content:")
+        print(posts[post]['content'])
+        print("==========================")
 
 def menu():
     print(" ")
@@ -54,10 +60,17 @@ while True:
 
     elif menuChoice == 2:
         threadNumber = input("Please choose a thread to view: ")
-        os.system("clear")
+        os.system('clear')
         thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=20")
-        prettyThread = json.dumps(thread.json(), indent=4)
-        print(prettyThread)
+        posts = json.loads(thread.content)
+        for post in range(1,len(posts)):
+            print("Post ID: "+ str(posts[post]['id']))
+            if posts[post]['replyTo'] is int:
+                print("In Reply To: " + posts[post]['replyTo'])
+            print("Post Content:")
+            print(posts[post]['content'])
+            print("==========================")
+
         input("Press enter to continue...")
         os.system("clear")
 
@@ -72,7 +85,7 @@ while True:
         boardFetch()
 
     elif menuChoice == 5:
-        os.system("clear")
+        os.system('clear')
         thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=20")
         prettyThread = json.dumps(thread.json(), indent=4)
         print(prettyThread)
