@@ -96,6 +96,7 @@ while True:
         print("/t/")
         print("/o/")
         print("/n/")
+        print("/i/")
         boardSelection = input("Selection: ")
         
     elif menuChoice == 7:
