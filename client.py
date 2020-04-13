@@ -3,6 +3,7 @@ import time
 import json
 import requests
 
+
 print('''
   ____      _               _                 _       _       _     
  / ___|   _| |__   ___ _ __| | __ _ _ __   __| |  ___| |_   _| |__  
@@ -31,16 +32,16 @@ def boardFetch():
     posts = json.loads(board.content)
     posts = list(reversed(posts))
     for post in range(1,len(posts)):
-        print("Post ID: "+ str(posts[post]['id']))
-        if type(posts[post]['replyTo']) is str:
-            if posts[post]['replyTo'] != "0":
-                print("In Reply To: " + posts[post]['replyTo'])
-        print("Post Content:")
+        print("\n================================================")
+        print("Post ID: "+ str(posts[post]['id']) + " | Time: "+ posts[post]['time'])
+        if posts[post]['replyTo'] != "0" and type(posts[post]['replyTo']) is str:
+            print(">>" + posts[post]['replyTo'])
+        print("================================================")
         print(posts[post]['content'])
-        print("==========================")
+        print("================================================\n")
 
 def menu():
-    print("[N]ew OP Post, [F]ollow a thread, [R]eply to a thread, Refresh [B]oard, Refresh [T]hread, [C]hange board, [Q]uit") 
+    print("[N]ew OP Post, [F]ollow a thread, [R]eply to a thread, [B]oard Refresh, [T]hread refresh, [C]hange board, [Q]uit") 
     menuChoice = str(input("Select a choice: "))
     return menuChoice
 
