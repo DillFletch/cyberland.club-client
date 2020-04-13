@@ -40,7 +40,7 @@ def boardFetch():
         print("==========================")
 
 def menu():
-    print("[N]ew OP Post, [F]ollow a thread, [R]eply to a thread, Refresh [B]oard, Refresh [T]hread, [C]hange board, [Q]uit") 
+    print("[N]ew OP Post, [F]ollow a thread, [R]eply to a thread, Refresh [B]oard, Refresh [T]hread, [C]hange board,[S]end ANSI image, [Q]uit") 
     menuChoice = str(input("Select a choice: "))
     return menuChoice
 
@@ -98,6 +98,13 @@ while True:
         print("/n/")
         print("/i/")
         boardSelection = input("Selection: ")
+
+    elif menuChoice.lower() == "s":
+        ansFileName = input("Please give the name of the ANSI file you want to send: ")
+        print("Sending ANSI file...")
+        ansiFile = open(ansFileName, "r", encoding="Windows-1252")
+        r = requests.post(url+boardSelection, data={"content":ansiFile.read(),"replyTo":"null"})
+        print(r)
         
     elif menuChoice.lower() == "q":
         print("Quitting! Bye Bye...")
