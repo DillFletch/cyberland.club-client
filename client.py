@@ -1,97 +1,98 @@
-import os
-import time
-import json
-import requests
+import os, json, requests, sys
 
-print('''
-  ____      _               _                 _       _       _     
- / ___|   _| |__   ___ _ __| | __ _ _ __   __| |  ___| |_   _| |__  
-| |  | | | | '_ \ / _ \ '__| |/ _` | '_ \ / _` | / __| | | | | '_ \ 
-| |__| |_| | |_) |  __/ |  | | (_| | | | | (_| || (__| | |_| | |_) |
- \____\__, |_.__/ \___|_|  |_|\__,_|_| |_|\__,_(_)___|_|\__,_|_.__/ 
-      |___/                                                         
-        ''')
+## Check is user has supplied instance URL as an arguement, default to https://cyberland.digital
+try:
+    if type(sys.argv[1]) is str:
+        url = sys.argv[1]
+except:
+    url = "https://cyberland.digital"
+
+
+## Get and print relevant ASCII art from top 8 lines of homepage
+for line in requests.get(url).text.split("\n")[:8]:
+    print(line)
 
 refreshed = False
 boardSelection = "nill"
-url = "https://cyberland2.club/"
 
-print("sm0lman's cringe cyberland.club python client")
-print(" ")
+## Initial selection
+print("sm0lman's cringe cyberland.club python client\n")
 print("Please select the board you wish to view")
 print("/t/")
 print("/o/")
 print("/n/")
-print("/i/")
+print("/i/") ## Will be updated in the future to fetch boards.json and show available boards on instance
 boardSelection = input("Selection: ")
 
-def boardFetch():
-    print("Fetching",boardSelection+"...")
-    board = requests.get(url+boardSelection+"?num=50")
-    posts = json.loads(board.content)
+## fetch OP posts
+def boardFetch(board):
+    print("Fetching ",board," OP posts")
+    content = requests.get(url+board+"?thread=0").content
+    showPosts(content)
+
+## Show posts nicely formatted
+def showPosts(content):
+    posts = json.loads(content)
     posts = list(reversed(posts))
     for post in range(1,len(posts)):
         print("\n================================================")
         print("Post ID: "+ str(posts[post]['id']) + " | Time: "+ posts[post]['time'])
         if posts[post]['replyTo'] != "0" and type(posts[post]['replyTo']) is str:
             print(">>" + posts[post]['replyTo'])
+        else:
+            print("OP")
         print("================================================")
         print(posts[post]['content'])
         print("================================================\n")
 
-def menu():
-    print("[N]ew OP Post, [F]ollow a thread, [R]eply to a thread, Refresh [B]oard, Refresh [T]hread, [C]hange board,[S]end ANSI image, [Q]uit") 
+
+def showMenu(type):
+    if type == "board":
+        print("[N]ew OP Post, [F]ollow a thread, [R]eply to a post, Refresh [B]oard, [C]hange board, [S]end ANSI image, [Q]uit") 
+    elif type == "thread":
+        print("[R]eply to a post, [B]ack to OP posts, [C]hange board, Refresh [T]hread, [S]end ANSI image, [Q]uit")
     menuChoice = str(input("Select a choice: "))
     return menuChoice
 
 
 while True:
-    if refreshed == False:
-       boardFetch()
+    if refreshed == False: ## Check if it is refreshed
+       boardFetch(boardSelection)
     refreshed = False
-    menuChoice = menu()
+    menuChoice = showMenu("board")
 
-    if menuChoice.lower() == "n":
+    if menuChoice.lower() == "n": ## New OP post
         message = input("What message?: ")
-        r = requests.post(url+boardSelection, data={"content":message,"replyTo":"null"})
-        print(r)
+        r = requests.post(url+boardSelection, data={"content":message, "replyTo": "0"})
+        showPosts(r.content)
+        refreshed = True
+        print(r.status_code)
 
-    elif menuChoice.lower() == "f":
+    elif menuChoice.lower() == "f": ## Follow thread
         threadNumber = input("Please choose a thread to view: ")
         os.system('clear')
-        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=50")
-        posts = json.loads(thread.content)
-        posts = list(reversed(posts))
-        for post in range(1,len(posts)):
-            print("Post ID: "+ str(posts[post]['id']))
-            if type(posts[post]['replyTo']) is str:
-                if posts[post]['replyTo'] != "0":
-                    print("In Reply To: " + posts[post]['replyTo'])
-            print("Post Content:")
-            print(posts[post]['content'])
-            print("==========================")
+        content = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=50").content
+        showPosts(content)
+        showMenu("thread")
 
-        input("Press enter to continue...")
-        os.system("clear")
 
-    elif menuChoice.lower() == "r":
+    elif menuChoice.lower() == "r": ## Reply to thread
         replyTo = input("Please choose a thread number to reply to: ")
         message = input("Please choose a message: ")
         r = requests.post(url+boardSelection, data={"content":message,"replyTo":replyTo})
-        print(r)
+        print(r.status_code)
 
-    elif menuChoice.lower() == "b":
+    elif menuChoice.lower() == "b": ## Refresh board
         os.system("clear")
-        boardFetch()
+        boardFetch(boardSelection)
         refreshed = True
 
-    elif menuChoice.lower() == "t":
+    elif menuChoice.lower() == "t": ## Refresh thread
         os.system('clear')
-        thread = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=50")
-        prettyThread = json.dumps(thread.json(), indent=4)
-        print(prettyThread)
+        content = requests.get(url+boardSelection+"?thread="+threadNumber+"&num=50").content
+        showPosts(content)
 
-    elif menuChoice.lower() == "c":
+    elif menuChoice.lower() == "c": ## Change board
         print("Boards to change to: ")
         print("/t/")
         print("/o/")
@@ -99,15 +100,15 @@ while True:
         print("/i/")
         boardSelection = input("Selection: ")
 
-    elif menuChoice.lower() == "s":
+    elif menuChoice.lower() == "s": ## Send ASCII
         ansFileName = input("Please give the name of the ANSI file you want to send: ")
         print("Sending ANSI file...")
         ansiFile = open(ansFileName, "r")
         message = input("Insert a message to put alongside your image: ")
-        r = requests.post(url+boardSelection, data={"content":(message + "\n" + ansiFile.read()),"replyTo":"null"})
-        print(r)
+        r = requests.post(url+boardSelection, data={"content":(message + "\n" + ansiFile.read())})
+        print(r.status_code)
         
-    elif menuChoice.lower() == "q":
+    elif menuChoice.lower() == "q": ## Quit
         print("Quitting! Bye Bye...")
         quit()
         
