@@ -2,5 +2,6 @@
 
 This client was written originally for https://cyberland.club, but eventually that died, so it is now still being developed for all of the forks and re-writes
 
-# Screenshot:
-![alt text](https://i.imgur.com/PAKhlJW.png)
+# Screenshots:
+![alt text](https://i.imgur.com/ncsXCNp.png)
+![alt text](https://i.imgur.com/GuTjTgJ.png)
