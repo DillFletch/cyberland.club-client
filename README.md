@@ -4,4 +4,3 @@ This client was written originally for https://cyberland.club, but eventually th
 
 # Screenshots:
 ![alt text](https://i.imgur.com/ncsXCNp.png)
-![alt text](https://i.imgur.com/GuTjTgJ.png)
