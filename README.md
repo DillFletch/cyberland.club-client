@@ -1,3 +1,7 @@
+# Archived
+Cyberland is now mostly dead, and I don't see any point in going further with this program so this repository is now archived...
+
+
 # Cyberland Python Client
 
 This client was written originally for https://cyberland.club, but eventually that died, so it is now still being developed for all of the forks and re-writes
